@@ -1,0 +1,18 @@
+/* Global styles from the "Play Ibira.dc.html" design. */
+body {
+  margin: 0;
+  background: #f4f1ec;
+  font-family: Lato, 'Helvetica Neue', Arial, sans-serif;
+  color: #1a1613;
+}
+a {
+  color: #1a1613;
+}
+a:hover {
+  color: #6f6a66;
+}
+
+/* Hover / focus / active states (style-* attributes in the design). */
+.play-ibira-hover-1:hover {
+  background: #ebe6df !important;
+}

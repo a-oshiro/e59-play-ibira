@@ -1,0 +1,70 @@
+/* Global styles from the "Play Ibira Totem.dc.html" design. */
+body {
+  margin: 0;
+  background: #f4f1ec;
+  font-family: Lato, sans-serif;
+  color: #1a1613;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: #1a1613;
+}
+a:hover {
+  color: oklch(0.55 0.19 44);
+}
+@keyframes tFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tBlink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes tPulse {
+  0% {
+    box-shadow: 0 0 0 0 oklch(0.68 0.21 44 / 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 10px oklch(0.68 0.21 44 / 0);
+  }
+}
+
+/* Hover / focus / active states (style-* attributes in the design). */
+.play-ibira-totem-hover-1:hover {
+  background: #ebe6df !important;
+}
+.play-ibira-totem-active-2:active {
+  background: #f7f7f6 !important;
+}
+.play-ibira-totem-active-3:active {
+  transform: scale(0.99) !important;
+}
+.play-ibira-totem-active-4:active {
+  background: #e4e4e2 !important;
+}
+.play-ibira-totem-active-5:active {
+  background: #c9c9c7 !important;
+}
+.play-ibira-totem-active-6:active {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+.play-ibira-totem-active-7:active {
+  transform: translateY(3px) !important;
+}

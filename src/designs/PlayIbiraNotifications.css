@@ -1,0 +1,16 @@
+/* Global styles from the "Play Ibira Notifications.dc.html" design. */
+body {
+  margin: 0;
+  background: #f4f1ec;
+  font-family: Lato, sans-serif;
+  color: #1a1613;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: #1a1613;
+}
+a:hover {
+  color: oklch(0.55 0.19 44);
+}
+
+/* Hover / focus / active states (style-* attributes in the design). */
