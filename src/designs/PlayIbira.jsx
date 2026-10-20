@@ -87,6 +87,16 @@ const DECISIONS = [
 ];
 // Shrinks the phone, watch and totem mockups toward real-world size on a typical desktop monitor.
 const DEVICE_SCALE = 2 / 3;
+// The interactive phone at the top is shown 20% larger than the gallery mockups.
+const MAIN_PHONE_SCALE = DEVICE_SCALE * 1.2;
+const HEADER_LINKS = [
+  [
+    'Board',
+    'https://www.figma.com/board/G85d7bt95OvJhD42scgSYv/E-59-%7C-Weekend-Experience-Empathy-Research?node-id=84-912&t=fDnSNfsstDjiKaXD-11',
+  ],
+  ['Research Report', 'https://docs.google.com/document/d/1TPbWKxfYquCfnvmS8hRLWr0XcF82CHRT1uEce3Bzgb8/edit?usp=sharing'],
+  ['Delivery Report', 'https://docs.google.com/document/d/1sn9CaJHh7wfPClE8i1xDNhI0ZG0uDe9pKY2DDVMcRtU/edit?usp=sharing'],
+];
 const SHOW_DECISIONS = false;
 
 class PlayIbiraLogic extends React.Component {
@@ -95,6 +105,8 @@ class PlayIbiraLogic extends React.Component {
   renderVals() {
     return {
       deviceScale: DEVICE_SCALE,
+      mainPhoneScale: MAIN_PHONE_SCALE,
+      headerLinks: HEADER_LINKS.map(([label, href]) => ({ label, href })),
       phoneGridW: Math.round(4 * 414 * DEVICE_SCALE + 3 * 32),
       totemColW: Math.round(870 * DEVICE_SCALE),
       showDecisions: SHOW_DECISIONS,

@@ -8,7 +8,40 @@ import PlayIbiraNotifications from './PlayIbiraNotifications';
 export default function PlayIbiraView(vals) {
   return (
     <>
-      <section id="t1" style={{ padding: '48px 56px 0' }}>
+      {/* Sticky on the left so it stays in view when the wide gallery scrolls sideways. */}
+      <header
+        style={{
+          position: 'sticky',
+          left: 0,
+          width: '100vw',
+          boxSizing: 'border-box',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '24px',
+          padding: '18px 56px',
+          borderBottom: '1px solid rgba(26,22,19,.12)',
+        }}
+      >
+        <div style={{ font: '700 15px/1.2 Lato,sans-serif', whiteSpace: 'nowrap' }}>
+          DGMD E59 <span style={{ color: '#c9c4bf', padding: '0 6px' }}>|</span>
+          <span style={{ fontWeight: 400, color: '#4a4542' }}>Weekend Experience</span>
+        </div>
+        <nav style={{ display: 'flex', gap: '28px' }}>
+          {arr(vals.headerLinks).map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              target="_blank"
+              rel="noreferrer"
+              style={{ font: '700 14px/1.2 Lato,sans-serif', textDecoration: 'none', whiteSpace: 'nowrap' }}
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+      </header>
+      <section id="t1" style={{ padding: '148px 56px 0' }}>
         {/* Sidebar | phone | empty column, so the phone itself is centered on the page. */}
         <div
           style={{
@@ -131,7 +164,7 @@ export default function PlayIbiraView(vals) {
               {' toggle above, then join a queue in Play, then tap "DEMO: my turn".'}
             </div>
           </div>
-          <PlayIbiraApp start={vals.start} nonce={vals.nonce} inPark={vals.inPark} scale={vals.deviceScale} />
+          <PlayIbiraApp start={vals.start} nonce={vals.nonce} inPark={vals.inPark} scale={vals.mainPhoneScale} />
         </div>
       </section>
       <section id="t1b" style={{ padding: '360px 56px 0' }}>
