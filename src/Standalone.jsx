@@ -21,7 +21,9 @@ function useViewport() {
 // Fills the screen with a design that was drawn `designW` wide: scale it to the screen width and give it
 // whatever height is left. If that would be shorter than `minH` (e.g. a rotated device), fit by height
 // instead and center it, leaving dark bars on the sides.
-function FullScreen({ designW, minH, bg, render }) {
+// `cropTop` / `cropBottom` hide that many design pixels at the edges: the design reserves room there for
+// the iPhone status bar and home indicator, which a web page doesn't need.
+function FullScreen({ designW, minH, bg, cropTop = 0, cropBottom = 0, render }) {
   const { w, h } = useViewport();
   let s = w / designW;
   let H = h / s;
@@ -33,7 +35,7 @@ function FullScreen({ designW, minH, bg, render }) {
     <div className="standalone-stage" style={{ background: '#1a1613' }}>
       <div style={{ width: designW * s, height: H * s, flex: 'none', background: bg, overflow: 'hidden' }}>
         <div style={{ width: designW, height: H, transform: `scale(${s})`, transformOrigin: '0 0' }}>
-          {render(Math.round(H))}
+          <div style={{ marginTop: -cropTop }}>{render(Math.round(H) + cropTop + cropBottom)}</div>
         </div>
       </div>
     </div>
@@ -47,6 +49,8 @@ export function PhoneApp() {
       designW={390}
       minH={640}
       bg="#fff"
+      cropTop={40}
+      cropBottom={24}
       render={(H) => <PlayIbiraApp standalone screenH={H} start="login" inPark />}
     />
   );

@@ -2263,6 +2263,7 @@ export default function PlayIbiraAppView(vals) {
                   style={{
                     width: '40px',
                     height: '40px',
+                    flex: 'none',
                     borderRadius: '50%',
                     boxShadow: 'inset 0 0 0 1px #ddd8d2',
                     display: 'grid',
@@ -2736,6 +2737,7 @@ export default function PlayIbiraAppView(vals) {
                 style={{
                   width: '40px',
                   height: '40px',
+                  flex: 'none',
                   borderRadius: '50%',
                   boxShadow: 'inset 0 0 0 1px #ddd8d2',
                   display: 'grid',
@@ -2865,6 +2867,7 @@ export default function PlayIbiraAppView(vals) {
                   style={{
                     width: '40px',
                     height: '40px',
+                    flex: 'none',
                     borderRadius: '50%',
                     boxShadow: 'inset 0 0 0 1px #ddd8d2',
                     display: 'grid',
@@ -3098,6 +3101,7 @@ export default function PlayIbiraAppView(vals) {
                         style={{
                           width: '36px',
                           height: '36px',
+                          flex: 'none',
                           borderRadius: '50%',
                           background: '#f1f1f0',
                           display: 'grid',
@@ -3339,6 +3343,7 @@ export default function PlayIbiraAppView(vals) {
                       style={{
                         width: '36px',
                         height: '36px',
+                        flex: 'none',
                         borderRadius: '50%',
                         background: '#f1f1f0',
                         display: 'grid',
@@ -4958,7 +4963,7 @@ export default function PlayIbiraAppView(vals) {
               height: '50px',
               zIndex: '50',
               background: '#ffffff',
-              display: 'flex',
+              display: vals.frame.chrome ? 'flex' : 'none',
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '4px 34px 0 44px',
