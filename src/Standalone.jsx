@@ -3,17 +3,15 @@ import PlayIbiraApp from './designs/PlayIbiraApp';
 import PlayIbiraTotem from './designs/PlayIbiraTotem';
 import './standalone.css';
 
+// Window size only: an on-screen keyboard shrinks the visual viewport, and following that would
+// shrink the whole app every time a text field is focused.
 function useViewport() {
   const read = () => ({ w: window.innerWidth, h: window.innerHeight });
   const [vp, setVp] = useState(read);
   useEffect(() => {
     const on = () => setVp(read());
     window.addEventListener('resize', on);
-    window.visualViewport?.addEventListener('resize', on);
-    return () => {
-      window.removeEventListener('resize', on);
-      window.visualViewport?.removeEventListener('resize', on);
-    };
+    return () => window.removeEventListener('resize', on);
   }, []);
   return vp;
 }

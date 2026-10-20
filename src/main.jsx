@@ -35,10 +35,14 @@ function Root() {
   useEffect(() => {
     const standalone = view !== 'desktop';
     document.documentElement.classList.toggle('standalone', standalone);
-    // Stop iOS from zooming the page when a text field is focused, which would break the app-like layout.
+    // Stop iOS from zooming the page when a text field is focused, and have Android's keyboard overlay the
+    // page instead of resizing it; either would break the app-like layout.
     document
       .querySelector('meta[name="viewport"]')
-      .setAttribute('content', `width=device-width, initial-scale=1${standalone ? ', maximum-scale=1' : ''}`);
+      .setAttribute(
+        'content',
+        `width=device-width, initial-scale=1${standalone ? ', maximum-scale=1, interactive-widget=resizes-visual' : ''}`,
+      );
   }, [view]);
 
   if (view === 'phone') return <PhoneApp />;

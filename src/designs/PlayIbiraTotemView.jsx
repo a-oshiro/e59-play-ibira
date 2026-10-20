@@ -1168,109 +1168,157 @@ export default function PlayIbiraTotemView(vals) {
                               It shows on this screen when it's your turn.
                             </div>
                           </div>
-                          <div
-                            style={{
-                              height: '96px',
-                              borderRadius: '20px',
-                              boxShadow: 'inset 0 0 0 2px #1a1613',
-                              display: 'flex',
-                              alignItems: 'center',
-                              padding: '0 28px',
-                              gap: '4px',
-                              font: '700 40px/1 Lato,sans-serif',
-                            }}
-                          >
-                            {' '}
-                            <span>{vals.name}</span>
-                            <span style={{ color: '#c9c9c7', fontWeight: '400' }}>{vals.namePh}</span>
+                          {vals.nativeKeys ? (
+                            <label
+                              style={{
+                                height: '96px',
+                                borderRadius: '20px',
+                                boxShadow: 'inset 0 0 0 2px #1a1613',
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '0 28px',
+                                gap: '12px',
+                                cursor: 'text',
+                              }}
+                            >
+                              <input
+                                className="totem-native-input"
+                                value={vals.name}
+                                onChange={vals.onNameInput}
+                                onKeyDown={vals.onNameKey}
+                                placeholder="Name"
+                                autoFocus
+                                autoCapitalize="words"
+                                autoComplete="off"
+                                autoCorrect="off"
+                                spellCheck={false}
+                                enterKeyHint="next"
+                                maxLength={14}
+                                style={{
+                                  flex: 1,
+                                  minWidth: 0,
+                                  border: 'none',
+                                  outline: 'none',
+                                  background: 'transparent',
+                                  padding: 0,
+                                  font: '700 40px/1 Lato,sans-serif',
+                                  color: '#1a1613',
+                                  caretColor: 'oklch(0.68 0.21 44)',
+                                }}
+                              />
+                              <span
+                                style={{ font: '400 20px/1 Lato,sans-serif', color: '#6f6a66', whiteSpace: 'nowrap' }}
+                              >
+                                {vals.groupSuffix}
+                              </span>
+                            </label>
+                          ) : (
                             <div
                               style={{
-                                width: '3px',
-                                height: '44px',
-                                background: 'oklch(0.68 0.21 44)',
-                                animation: 'tBlink 1s steps(1) infinite',
+                                height: '96px',
+                                borderRadius: '20px',
+                                boxShadow: 'inset 0 0 0 2px #1a1613',
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '0 28px',
+                                gap: '4px',
+                                font: '700 40px/1 Lato,sans-serif',
                               }}
-                            />
-                            <div style={{ flex: '1' }} />
-                            <span style={{ font: '400 20px/1 Lato,sans-serif', color: '#6f6a66' }}>
-                              {vals.groupSuffix}
-                            </span>{' '}
-                          </div>
+                            >
+                              {' '}
+                              <span>{vals.name}</span>
+                              <span style={{ color: '#c9c9c7', fontWeight: '400' }}>{vals.namePh}</span>
+                              <div
+                                style={{
+                                  width: '3px',
+                                  height: '44px',
+                                  background: 'oklch(0.68 0.21 44)',
+                                  animation: 'tBlink 1s steps(1) infinite',
+                                }}
+                              />
+                              <div style={{ flex: '1' }} />
+                              <span style={{ font: '400 20px/1 Lato,sans-serif', color: '#6f6a66' }}>
+                                {vals.groupSuffix}
+                              </span>{' '}
+                            </div>
+                          )}
                           <div style={{ flex: '1' }} />
-                          <div
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              gap: '8px',
-                              padding: '16px',
-                              borderRadius: '24px',
-                              background: '#ececeb',
-                            }}
-                          >
-                            {arr(vals.kbd).map((row, i_row) => (
-                              <Fragment key={i_row}>
-                                <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                                  {arr(row?.keys).map((k, i_k) => (
-                                    <Fragment key={i_k}>
-                                      <div
-                                        className="play-ibira-totem-active-4"
-                                        onClick={k?.on}
-                                        style={{
-                                          width: '62px',
-                                          height: '72px',
-                                          borderRadius: '12px',
-                                          background: '#fff',
-                                          boxShadow: '0 1px 0 #c9c9c7',
-                                          display: 'grid',
-                                          placeItems: 'center',
-                                          font: '700 26px/1 Lato,sans-serif',
-                                          cursor: 'pointer',
-                                        }}
-                                      >
-                                        {k?.k}
-                                      </div>
-                                    </Fragment>
-                                  ))}
+                          {vals.nativeKeys ? null : (
+                            <div
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '8px',
+                                padding: '16px',
+                                borderRadius: '24px',
+                                background: '#ececeb',
+                              }}
+                            >
+                              {arr(vals.kbd).map((row, i_row) => (
+                                <Fragment key={i_row}>
+                                  <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                                    {arr(row?.keys).map((k, i_k) => (
+                                      <Fragment key={i_k}>
+                                        <div
+                                          className="play-ibira-totem-active-4"
+                                          onClick={k?.on}
+                                          style={{
+                                            width: '62px',
+                                            height: '72px',
+                                            borderRadius: '12px',
+                                            background: '#fff',
+                                            boxShadow: '0 1px 0 #c9c9c7',
+                                            display: 'grid',
+                                            placeItems: 'center',
+                                            font: '700 26px/1 Lato,sans-serif',
+                                            cursor: 'pointer',
+                                          }}
+                                        >
+                                          {k?.k}
+                                        </div>
+                                      </Fragment>
+                                    ))}
+                                  </div>
+                                </Fragment>
+                              ))}
+                              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                                <div
+                                  className="play-ibira-totem-active-4"
+                                  onClick={vals.kSpace}
+                                  style={{
+                                    width: '420px',
+                                    height: '72px',
+                                    borderRadius: '12px',
+                                    background: '#fff',
+                                    boxShadow: '0 1px 0 #c9c9c7',
+                                    display: 'grid',
+                                    placeItems: 'center',
+                                    font: '700 19px/1 Lato,sans-serif',
+                                    color: '#6f6a66',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  space
                                 </div>
-                              </Fragment>
-                            ))}
-                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                              <div
-                                className="play-ibira-totem-active-4"
-                                onClick={vals.kSpace}
-                                style={{
-                                  width: '420px',
-                                  height: '72px',
-                                  borderRadius: '12px',
-                                  background: '#fff',
-                                  boxShadow: '0 1px 0 #c9c9c7',
-                                  display: 'grid',
-                                  placeItems: 'center',
-                                  font: '700 19px/1 Lato,sans-serif',
-                                  color: '#6f6a66',
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                space
-                              </div>
-                              <div
-                                className="play-ibira-totem-active-5"
-                                onClick={vals.kDel}
-                                style={{
-                                  width: '132px',
-                                  height: '72px',
-                                  borderRadius: '12px',
-                                  background: '#d6d6d4',
-                                  display: 'grid',
-                                  placeItems: 'center',
-                                  font: '700 26px/1 Lato,sans-serif',
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                ⌫
+                                <div
+                                  className="play-ibira-totem-active-5"
+                                  onClick={vals.kDel}
+                                  style={{
+                                    width: '132px',
+                                    height: '72px',
+                                    borderRadius: '12px',
+                                    background: '#d6d6d4',
+                                    display: 'grid',
+                                    placeItems: 'center',
+                                    font: '700 26px/1 Lato,sans-serif',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  ⌫
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          )}
                           <div style={{ display: 'flex', gap: '14px' }}>
                             <div
                               onClick={vals.back}
@@ -1331,61 +1379,104 @@ export default function PlayIbiraTotemView(vals) {
                               free.
                             </div>
                           </div>
-                          <div
-                            style={{
-                              height: '96px',
-                              borderRadius: '20px',
-                              boxShadow: 'inset 0 0 0 2px #1a1613',
-                              display: 'flex',
-                              alignItems: 'center',
-                              padding: '0 28px',
-                              gap: '4px',
-                              font: '700 40px/1 Lato,sans-serif',
-                              fontVariantNumeric: 'tabular-nums',
-                            }}
-                          >
-                            {' '}
-                            <span style={{ color: '#6f6a66', fontWeight: '400', paddingRight: '10px' }}>+55</span>
-                            <span>{vals.phoneFmt}</span>
-                            <span style={{ color: '#c9c9c7', fontWeight: '400' }}>{vals.phonePh}</span>
+                          {vals.nativeKeys ? (
+                            <label
+                              style={{
+                                height: '96px',
+                                borderRadius: '20px',
+                                boxShadow: 'inset 0 0 0 2px #1a1613',
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '0 28px',
+                                gap: '12px',
+                                cursor: 'text',
+                                fontVariantNumeric: 'tabular-nums',
+                              }}
+                            >
+                              <span style={{ font: '400 40px/1 Lato,sans-serif', color: '#6f6a66' }}>+55</span>
+                              <input
+                                className="totem-native-input"
+                                type="tel"
+                                inputMode="numeric"
+                                value={vals.phoneFmt}
+                                onChange={vals.onPhoneInput}
+                                onKeyDown={vals.onPhoneKey}
+                                placeholder="(11) 98765-4321"
+                                autoFocus
+                                autoComplete="off"
+                                enterKeyHint="go"
+                                style={{
+                                  flex: 1,
+                                  minWidth: 0,
+                                  border: 'none',
+                                  outline: 'none',
+                                  background: 'transparent',
+                                  padding: 0,
+                                  font: '700 40px/1 Lato,sans-serif',
+                                  color: '#1a1613',
+                                  caretColor: 'oklch(0.68 0.21 44)',
+                                }}
+                              />
+                            </label>
+                          ) : (
                             <div
                               style={{
-                                width: '3px',
-                                height: '44px',
-                                background: 'oklch(0.68 0.21 44)',
-                                animation: 'tBlink 1s steps(1) infinite',
+                                height: '96px',
+                                borderRadius: '20px',
+                                boxShadow: 'inset 0 0 0 2px #1a1613',
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '0 28px',
+                                gap: '4px',
+                                font: '700 40px/1 Lato,sans-serif',
+                                fontVariantNumeric: 'tabular-nums',
                               }}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              display: 'grid',
-                              gridTemplateColumns: 'repeat(3,1fr)',
-                              gap: '10px',
-                              padding: '0 60px',
-                            }}
-                          >
-                            {arr(vals.keypad).map((k, i_k) => (
-                              <Fragment key={i_k}>
-                                <div
-                                  className="play-ibira-totem-active-4"
-                                  onClick={k?.on}
-                                  style={{
-                                    height: '84px',
-                                    borderRadius: '18px',
-                                    background: `${s(k?.bg)}`,
-                                    display: 'grid',
-                                    placeItems: 'center',
-                                    font: '700 32px/1 Lato,sans-serif',
-                                    cursor: 'pointer',
-                                    visibility: `${s(k?.vis)}`,
-                                  }}
-                                >
-                                  {k?.k}
-                                </div>
-                              </Fragment>
-                            ))}
-                          </div>
+                            >
+                              {' '}
+                              <span style={{ color: '#6f6a66', fontWeight: '400', paddingRight: '10px' }}>+55</span>
+                              <span>{vals.phoneFmt}</span>
+                              <span style={{ color: '#c9c9c7', fontWeight: '400' }}>{vals.phonePh}</span>
+                              <div
+                                style={{
+                                  width: '3px',
+                                  height: '44px',
+                                  background: 'oklch(0.68 0.21 44)',
+                                  animation: 'tBlink 1s steps(1) infinite',
+                                }}
+                              />
+                            </div>
+                          )}
+                          {vals.nativeKeys ? null : (
+                            <div
+                              style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(3,1fr)',
+                                gap: '10px',
+                                padding: '0 60px',
+                              }}
+                            >
+                              {arr(vals.keypad).map((k, i_k) => (
+                                <Fragment key={i_k}>
+                                  <div
+                                    className="play-ibira-totem-active-4"
+                                    onClick={k?.on}
+                                    style={{
+                                      height: '84px',
+                                      borderRadius: '18px',
+                                      background: `${s(k?.bg)}`,
+                                      display: 'grid',
+                                      placeItems: 'center',
+                                      font: '700 32px/1 Lato,sans-serif',
+                                      cursor: 'pointer',
+                                      visibility: `${s(k?.vis)}`,
+                                    }}
+                                  >
+                                    {k?.k}
+                                  </div>
+                                </Fragment>
+                              ))}
+                            </div>
+                          )}
                           <div style={{ font: '400 17px/1.4 Lato,sans-serif', color: '#6f6a66', textAlign: 'center' }}>
                             Your number is only used for this line and deleted after your game.
                           </div>

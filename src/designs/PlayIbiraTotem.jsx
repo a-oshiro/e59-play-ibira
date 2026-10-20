@@ -406,6 +406,27 @@ class PlayIbiraTotemLogic extends React.Component {
         if (s.phone.length === 11) this.join(s.phone);
       },
       skipPhone: () => this.join(''),
+      // On a real tablet, type with the device's own keyboard instead of the on-screen ones.
+      nativeKeys: !!this.props.standalone,
+      onNameInput: (e) =>
+        this.setState({
+          name: e.target.value
+            .replace(/^\s+/, '')
+            .replace(/\s{2,}/g, ' ')
+            .slice(0, 14),
+        }),
+      onPhoneInput: (e) => {
+        let digits = e.target.value.replace(/\D/g, '').slice(0, 11);
+        // Backspacing over a "(", ")" or "-" removes no digit, so drop the last one instead.
+        if (digits === s.phone && e.target.value.length < pf.length) digits = digits.slice(0, -1);
+        this.setState({ phone: digits });
+      },
+      onNameKey: (e) => {
+        if (e.key === 'Enter' && can) this.setState({ step: s.step + 1 });
+      },
+      onPhoneKey: (e) => {
+        if (e.key === 'Enter' && s.phone.length === 11) this.join(s.phone);
+      },
       doneName: last.name,
       donePos: '#' + last.pos,
       doneEta: last.eta <= 0 ? 'Now' : `${last.eta}′`,

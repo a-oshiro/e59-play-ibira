@@ -68,3 +68,9 @@ a:hover {
 .play-ibira-totem-active-7:active {
   transform: translateY(3px) !important;
 }
+
+/* Tablet mode: real text fields in place of the on-screen keyboard and keypad. */
+.totem-native-input::placeholder {
+  color: #c9c9c7;
+  font-weight: 400;
+}
