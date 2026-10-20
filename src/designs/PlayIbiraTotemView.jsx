@@ -9,23 +9,15 @@ export default function PlayIbiraTotemView(vals) {
       <div
         style={{ padding: `${s(vals.pad)}px`, width: vals.showSide ? '100%' : 'max-content', boxSizing: 'border-box' }}
       >
-        {/* With the side panel, a 3-column grid keeps the device itself centered on the page. */}
+        {/* With the side panel, a 3-column grid keeps the device itself centered on the page (PlayIbira.css). */}
         <div
-          style={
-            vals.showSide
-              ? {
-                  display: 'grid',
-                  gridTemplateColumns: 'minmax(300px,1fr) auto minmax(0,1fr)',
-                  columnGap: '56px',
-                  alignItems: 'start',
-                }
-              : { display: 'flex', gap: '56px', alignItems: 'flex-start' }
-          }
+          className={vals.showSide ? 'pi-center-row pi-center-row--totem' : undefined}
+          style={vals.showSide ? undefined : { display: 'flex', gap: '56px', alignItems: 'flex-start' }}
         >
           {vals.showSide ? (
             <div
+              className="pi-side"
               style={{
-                justifySelf: 'end',
                 width: '300px',
                 display: 'flex',
                 flexDirection: 'column',

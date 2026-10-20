@@ -12,6 +12,38 @@ a:hover {
   color: #6f6a66;
 }
 
+/* Side panel | device | empty column: keeps the device centered on the page. On windows too narrow for
+   that, stack the panel above the device instead of overflowing sideways. */
+.pi-center-row {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) auto minmax(0, 1fr);
+  column-gap: 56px;
+  align-items: start;
+}
+.pi-center-row > .pi-side {
+  justify-self: end;
+}
+@media (max-width: 879px) {
+  .pi-center-row--phone {
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+    justify-items: center;
+  }
+  .pi-center-row--phone > .pi-side {
+    justify-self: center;
+  }
+}
+@media (max-width: 1119px) {
+  .pi-center-row--totem {
+    grid-template-columns: 1fr;
+    row-gap: 40px;
+    justify-items: center;
+  }
+  .pi-center-row--totem > .pi-side {
+    justify-self: center;
+  }
+}
+
 /* Hover / focus / active states (style-* attributes in the design). */
 .play-ibira-hover-1:hover {
   background: #ebe6df !important;

@@ -4,12 +4,12 @@ import PlayIbira from './designs/PlayIbira';
 import { PhoneApp, TabletTotem } from './Standalone';
 
 // Which experience this screen gets:
-// - phone:   narrow screens (< 600px wide), or a touch device whose short side is < 600px (a phone turned sideways)
+// - phone:   narrow screens (< 700px wide, the narrowest the desktop page fits without sideways scrolling), or a touch device whose short side is < 600px (a phone turned sideways)
 // - tablet:  touch-only devices (no hover, coarse pointer) at least 600px on both sides: iPads, Android tablets
 // - desktop: everything else gets the full design canvas
 // `?view=phone|tablet|desktop` overrides this, for testing or for sharing a specific view.
 const QUERIES = {
-  phone: '(max-width: 599px), (hover: none) and (pointer: coarse) and (max-height: 599px)',
+  phone: '(max-width: 699px), (hover: none) and (pointer: coarse) and (max-height: 599px)',
   tablet: '(hover: none) and (pointer: coarse) and (min-width: 600px) and (min-height: 600px)',
 };
 const VIEWS = ['phone', 'tablet', 'desktop'];

@@ -5,19 +5,58 @@ import PlayIbiraApp from './PlayIbiraApp';
 import PlayIbiraTotem from './PlayIbiraTotem';
 import PlayIbiraNotifications from './PlayIbiraNotifications';
 
+// One group of screens. Columns are the device's width and wrap to fit the window; the title spans the
+// first row so it lines up with the left edge of the centered grid.
+function GalleryGrid({ title, colW, children }) {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(auto-fill, ${colW}px)`,
+        justifyContent: 'center',
+        gap: '40px 32px',
+      }}
+    >
+      <div style={{ gridColumn: '1 / -1', font: '700 11px/1 Lato,sans-serif', letterSpacing: '.12em', color: '#6f6a66' }}>
+        {title}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function GalleryItem({ n, label, children }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
+        <span
+          style={{
+            font: '700 11px/1 ui-monospace,Menlo,monospace',
+            padding: '3px 6px',
+            borderRadius: '4px',
+            background: '#1a1613',
+            color: '#fff',
+            flex: 'none',
+          }}
+        >
+          {n}
+        </span>
+        <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{label}</span>
+      </div>
+      {children}
+    </div>
+  );
+}
+
 export default function PlayIbiraView(vals) {
   return (
     <>
-      {/* Sticky on the left so it stays in view when the wide gallery scrolls sideways. */}
       <header
         style={{
-          position: 'sticky',
-          left: 0,
-          width: '100vw',
-          boxSizing: 'border-box',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
           gap: '24px',
           padding: '18px 56px',
           borderBottom: '1px solid rgba(26,22,19,.12)',
@@ -41,19 +80,12 @@ export default function PlayIbiraView(vals) {
           ))}
         </nav>
       </header>
-      <section id="t1" style={{ padding: '148px 56px 0' }}>
+      <section id="t1" style={{ padding: '100px 56px 0' }}>
         {/* Sidebar | phone | empty column, so the phone itself is centered on the page. */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(300px,1fr) auto minmax(0,1fr)',
-            columnGap: '56px',
-            alignItems: 'start',
-          }}
-        >
+        <div className="pi-center-row pi-center-row--phone">
           <div
+            className="pi-side"
             style={{
-              justifySelf: 'end',
               width: '300px',
               display: 'flex',
               flexDirection: 'column',
@@ -170,140 +202,49 @@ export default function PlayIbiraView(vals) {
       <section id="t1b" style={{ padding: '360px 56px 0' }}>
         <PlayIbiraTotem embedded={true} scale={vals.deviceScale} />
       </section>
-      <section id="t2" style={{ padding: '360px 56px 160px', width: 'max-content', margin: '0 auto' }}>
-        <div style={{ font: '700 22px/1.2 Lato,sans-serif', paddingBottom: '6px' }}>All screens</div>
-        <div style={{ font: '400 14px/1.5 Lato,sans-serif', color: '#6f6a66', paddingBottom: '28px' }}>
-          Each frame is the live prototype, opened at a given state. Zoom out to see them all.
+      <section id="t2" style={{ padding: '200px 56px 160px' }}>
+        <div style={{ font: '700 22px/1.2 Lato,sans-serif', paddingBottom: '6px', textAlign: 'center' }}>All screens</div>
+        <div
+          style={{
+            font: '400 14px/1.5 Lato,sans-serif',
+            color: '#6f6a66',
+            paddingBottom: '48px',
+            textAlign: 'center',
+          }}
+        >
+          Each frame is the live prototype, opened at a given state.
         </div>
-        <div style={{ display: 'flex', gap: '120px', alignItems: 'flex-start' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div style={{ font: '700 11px/1 Lato,sans-serif', letterSpacing: '.12em', color: '#6f6a66' }}>
-              MOBILE APP · IPHONE 390×844
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '40px 32px',
-                width: `${vals.phoneGridW}px`,
-                flex: 'none',
-              }}
-            >
-              {arr(vals.gallery).map((g, i_g) => (
-                <Fragment key={i_g}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                      <span
-                        style={{
-                          font: '700 11px/1 ui-monospace,Menlo,monospace',
-                          padding: '3px 6px',
-                          borderRadius: '4px',
-                          background: '#1a1613',
-                          color: '#fff',
-                        }}
-                      >
-                        {g?.n}
-                      </span>
-                      <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{g?.label}</span>
-                    </div>
-                    <div id={`shot-app-${s(g?.n)}`} style={{ width: 'max-content' }}>
-                      <PlayIbiraApp start={g?.start} inPark={true} scale={vals.deviceScale} />
-                    </div>
-                  </div>
-                </Fragment>
-              ))}
-              {arr(vals.notifPhones).map((g, i_g) => (
-                <Fragment key={i_g}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                      <span
-                        style={{
-                          font: '700 11px/1 ui-monospace,Menlo,monospace',
-                          padding: '3px 6px',
-                          borderRadius: '4px',
-                          background: '#1a1613',
-                          color: '#fff',
-                        }}
-                      >
-                        {g?.n}
-                      </span>
-                      <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{g?.label}</span>
-                    </div>
-                    <PlayIbiraNotifications screen={g?.k} scale={vals.deviceScale} />
-                  </div>
-                </Fragment>
-              ))}
-            </div>
-            <div
-              style={{
-                font: '700 11px/1 Lato,sans-serif',
-                letterSpacing: '.12em',
-                color: '#6f6a66',
-                paddingTop: '40px',
-              }}
-            >
-              SMARTWATCH · NOTIFICATIONS & QUEUE
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px 32px' }}>
-              {arr(vals.notifWatch).map((g, i_g) => (
-                <Fragment key={i_g}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                      <span
-                        style={{
-                          font: '700 11px/1 ui-monospace,Menlo,monospace',
-                          padding: '3px 6px',
-                          borderRadius: '4px',
-                          background: '#1a1613',
-                          color: '#fff',
-                        }}
-                      >
-                        {g?.n}
-                      </span>
-                      <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{g?.label}</span>
-                    </div>
-                    <PlayIbiraNotifications screen={g?.k} scale={vals.deviceScale} />
-                  </div>
-                </Fragment>
-              ))}
-            </div>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div style={{ font: '700 11px/1 Lato,sans-serif', letterSpacing: '.12em', color: '#6f6a66' }}>
-              WALK-UP TOTEM · IPAD 11"
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(3,${vals.totemColW}px)`, gap: '40px 32px' }}>
-              {arr(vals.totemGallery).map((g, i_g) => (
-                <Fragment key={i_g}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-                      <span
-                        style={{
-                          font: '700 11px/1 ui-monospace,Menlo,monospace',
-                          padding: '3px 6px',
-                          borderRadius: '4px',
-                          background: '#1a1613',
-                          color: '#fff',
-                        }}
-                      >
-                        {g?.n}
-                      </span>
-                      <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{g?.label}</span>
-                    </div>
-                    <div id={`shot-totem-${s(g?.n)}`} style={{ width: 'max-content' }}>
-                      <PlayIbiraTotem
-                        embedded={true}
-                        bare={true}
-                        start={g?.start}
-                        showDemo={false}
-                        scale={vals.deviceScale}
-                      />
-                    </div>
-                  </div>
-                </Fragment>
-              ))}
-            </div>
-          </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '96px' }}>
+          <GalleryGrid title="MOBILE APP · IPHONE 390×844" colW={vals.phoneColW}>
+            {arr(vals.gallery).map((g) => (
+              <GalleryItem key={g.n} n={g.n} label={g.label}>
+                <div id={`shot-app-${s(g?.n)}`} style={{ width: 'max-content' }}>
+                  <PlayIbiraApp start={g?.start} inPark={true} scale={vals.deviceScale} />
+                </div>
+              </GalleryItem>
+            ))}
+            {arr(vals.notifPhones).map((g) => (
+              <GalleryItem key={g.n} n={g.n} label={g.label}>
+                <PlayIbiraNotifications screen={g?.k} scale={vals.deviceScale} />
+              </GalleryItem>
+            ))}
+          </GalleryGrid>
+          <GalleryGrid title="SMARTWATCH · NOTIFICATIONS & QUEUE" colW={vals.watchColW}>
+            {arr(vals.notifWatch).map((g) => (
+              <GalleryItem key={g.n} n={g.n} label={g.label}>
+                <PlayIbiraNotifications screen={g?.k} scale={vals.deviceScale} />
+              </GalleryItem>
+            ))}
+          </GalleryGrid>
+          <GalleryGrid title={'WALK-UP TOTEM · IPAD 11"'} colW={vals.totemColW}>
+            {arr(vals.totemGallery).map((g) => (
+              <GalleryItem key={g.n} n={g.n} label={g.label}>
+                <div id={`shot-totem-${s(g?.n)}`} style={{ width: 'max-content' }}>
+                  <PlayIbiraTotem embedded={true} bare={true} start={g?.start} showDemo={false} scale={vals.deviceScale} />
+                </div>
+              </GalleryItem>
+            ))}
+          </GalleryGrid>
         </div>
         {vals.showDecisions ? (
           <>
