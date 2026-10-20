@@ -9,8 +9,25 @@ export default function PlayIbiraView(vals) {
   return (
     <>
       <section id="t1" style={{ padding: '48px 56px 0' }}>
-        <div style={{ display: 'flex', gap: '56px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: '22px', flex: 'none' }}>
+        {/* Sidebar | phone | empty column, so the phone itself is centered on the page. */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(300px,1fr) auto minmax(0,1fr)',
+            columnGap: '56px',
+            alignItems: 'start',
+          }}
+        >
+          <div
+            style={{
+              justifySelf: 'end',
+              width: '300px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '22px',
+              flex: 'none',
+            }}
+          >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <div style={{ font: '700 11px/1 Lato,sans-serif', letterSpacing: '.12em', color: '#6f6a66' }}>
                 CLICKABLE PROTOTYPE · IPHONE 390×844
@@ -114,13 +131,13 @@ export default function PlayIbiraView(vals) {
               {' toggle above, then join a queue in Play, then tap "DEMO: my turn".'}
             </div>
           </div>
-          <PlayIbiraApp start={vals.start} nonce={vals.nonce} inPark={vals.inPark} />
+          <PlayIbiraApp start={vals.start} nonce={vals.nonce} inPark={vals.inPark} scale={vals.deviceScale} />
         </div>
       </section>
       <section id="t1b" style={{ padding: '360px 56px 0' }}>
-        <PlayIbiraTotem embedded={true} />
+        <PlayIbiraTotem embedded={true} scale={vals.deviceScale} />
       </section>
-      <section id="t2" style={{ padding: '360px 56px 160px' }}>
+      <section id="t2" style={{ padding: '360px 56px 160px', width: 'max-content', margin: '0 auto' }}>
         <div style={{ font: '700 22px/1.2 Lato,sans-serif', paddingBottom: '6px' }}>All screens</div>
         <div style={{ font: '400 14px/1.5 Lato,sans-serif', color: '#6f6a66', paddingBottom: '28px' }}>
           Each frame is the live prototype, opened at a given state. Zoom out to see them all.
@@ -130,7 +147,15 @@ export default function PlayIbiraView(vals) {
             <div style={{ font: '700 11px/1 Lato,sans-serif', letterSpacing: '.12em', color: '#6f6a66' }}>
               MOBILE APP · IPHONE 390×844
             </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px 32px', width: '1752px', flex: 'none' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '40px 32px',
+                width: `${vals.phoneGridW}px`,
+                flex: 'none',
+              }}
+            >
               {arr(vals.gallery).map((g, i_g) => (
                 <Fragment key={i_g}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -149,7 +174,7 @@ export default function PlayIbiraView(vals) {
                       <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{g?.label}</span>
                     </div>
                     <div id={`shot-app-${s(g?.n)}`} style={{ width: 'max-content' }}>
-                      <PlayIbiraApp start={g?.start} inPark={true} />
+                      <PlayIbiraApp start={g?.start} inPark={true} scale={vals.deviceScale} />
                     </div>
                   </div>
                 </Fragment>
@@ -171,7 +196,7 @@ export default function PlayIbiraView(vals) {
                       </span>
                       <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{g?.label}</span>
                     </div>
-                    <PlayIbiraNotifications screen={g?.k} />
+                    <PlayIbiraNotifications screen={g?.k} scale={vals.deviceScale} />
                   </div>
                 </Fragment>
               ))}
@@ -204,7 +229,7 @@ export default function PlayIbiraView(vals) {
                       </span>
                       <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{g?.label}</span>
                     </div>
-                    <PlayIbiraNotifications screen={g?.k} />
+                    <PlayIbiraNotifications screen={g?.k} scale={vals.deviceScale} />
                   </div>
                 </Fragment>
               ))}
@@ -212,9 +237,9 @@ export default function PlayIbiraView(vals) {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div style={{ font: '700 11px/1 Lato,sans-serif', letterSpacing: '.12em', color: '#6f6a66' }}>
-              WALK-UP TOTEM · IPAD 11" · SHOWN AT 70%
+              WALK-UP TOTEM · IPAD 11"
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,609px)', gap: '40px 32px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: `repeat(3,${vals.totemColW}px)`, gap: '40px 32px' }}>
               {arr(vals.totemGallery).map((g, i_g) => (
                 <Fragment key={i_g}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -232,8 +257,14 @@ export default function PlayIbiraView(vals) {
                       </span>
                       <span style={{ font: '700 14px/1.3 Lato,sans-serif' }}>{g?.label}</span>
                     </div>
-                    <div id={`shot-totem-${s(g?.n)}`} style={{ zoom: '0.7', width: 'max-content' }}>
-                      <PlayIbiraTotem embedded={true} bare={true} start={g?.start} showDemo={false} />
+                    <div id={`shot-totem-${s(g?.n)}`} style={{ width: 'max-content' }}>
+                      <PlayIbiraTotem
+                        embedded={true}
+                        bare={true}
+                        start={g?.start}
+                        showDemo={false}
+                        scale={vals.deviceScale}
+                      />
                     </div>
                   </div>
                 </Fragment>
@@ -241,63 +272,80 @@ export default function PlayIbiraView(vals) {
             </div>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '280px 0 16px' }}>
-          <div style={{ font: '700 22px/1.2 Lato,sans-serif', flex: '1' }}>Design decisions</div>
-          <div
-            onClick={vals.toggleAllDec}
-            style={{
-              font: '700 13px/1 Lato,sans-serif',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              color: '#6f6a66',
-            }}
-          >
-            {vals.allDecLabel}
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: '900px',
-            borderTop: '1px solid rgba(26,22,19,.12)',
-          }}
-        >
-          {arr(vals.decisions).map((d, i_d) => (
-            <Fragment key={i_d}>
-              <div style={{ borderBottom: '1px solid rgba(26,22,19,.12)' }}>
-                <div
-                  className="play-ibira-hover-1"
-                  onClick={d?.toggle}
-                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '16px 4px', cursor: 'pointer' }}
-                >
-                  {' '}
-                  <span style={{ font: '700 11px/1 ui-monospace,Menlo,monospace', color: '#6f6a66', width: '20px' }}>
-                    {d?.n}
-                  </span>{' '}
-                  <div style={{ flex: '1', font: '700 15px/1.35 Lato,sans-serif' }}>{d?.t}</div>
-                  <div
-                    style={{ font: '400 20px/1 Lato,sans-serif', color: '#6f6a66', width: '20px', textAlign: 'center' }}
-                  >
-                    {d?.icon}
-                  </div>
-                </div>
-                {d?.open ? (
-                  <div
-                    style={{
-                      padding: '0 40px 18px 38px',
-                      font: '400 14px/1.55 Lato,sans-serif',
-                      color: '#4a4542',
-                      textWrap: 'pretty',
-                    }}
-                  >
-                    {d?.b}
-                  </div>
-                ) : null}
+        {vals.showDecisions ? (
+          <>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', padding: '280px 0 16px' }}>
+              <div style={{ font: '700 22px/1.2 Lato,sans-serif', flex: '1' }}>Design decisions</div>
+              <div
+                onClick={vals.toggleAllDec}
+                style={{
+                  font: '700 13px/1 Lato,sans-serif',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  color: '#6f6a66',
+                }}
+              >
+                {vals.allDecLabel}
               </div>
-            </Fragment>
-          ))}
-        </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                maxWidth: '900px',
+                borderTop: '1px solid rgba(26,22,19,.12)',
+              }}
+            >
+              {arr(vals.decisions).map((d, i_d) => (
+                <Fragment key={i_d}>
+                  <div style={{ borderBottom: '1px solid rgba(26,22,19,.12)' }}>
+                    <div
+                      className="play-ibira-hover-1"
+                      onClick={d?.toggle}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '14px',
+                        padding: '16px 4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {' '}
+                      <span
+                        style={{ font: '700 11px/1 ui-monospace,Menlo,monospace', color: '#6f6a66', width: '20px' }}
+                      >
+                        {d?.n}
+                      </span>{' '}
+                      <div style={{ flex: '1', font: '700 15px/1.35 Lato,sans-serif' }}>{d?.t}</div>
+                      <div
+                        style={{
+                          font: '400 20px/1 Lato,sans-serif',
+                          color: '#6f6a66',
+                          width: '20px',
+                          textAlign: 'center',
+                        }}
+                      >
+                        {d?.icon}
+                      </div>
+                    </div>
+                    {d?.open ? (
+                      <div
+                        style={{
+                          padding: '0 40px 18px 38px',
+                          font: '400 14px/1.55 Lato,sans-serif',
+                          color: '#4a4542',
+                          textWrap: 'pretty',
+                        }}
+                      >
+                        {d?.b}
+                      </div>
+                    ) : null}
+                  </div>
+                </Fragment>
+              ))}
+            </div>
+          </>
+        ) : null}
       </section>
     </>
   );

@@ -460,7 +460,7 @@ const ONB_SPORTS = [
 const PLAN_SPORTS = ['tennis', 'beachtennis', 'soccer', 'basketball', 'beachvolley', 'roller'];
 const DAYS = ['Today', 'Tomorrow', 'Sat 17', 'Sun 18'];
 const TIMES = ['8 AM', '10 AM', '4 PM', '6 PM'];
-const SHEET = { low: 132, mid: 360, full: 705 };
+const SHEET = { low: 132, mid: 360, full: 705 }; // for the 844px-tall design screen; see sheets()
 const YOU_IN = [470, 548],
   YOU_OUT = [812, 1012];
 const DEFV = { s: 0.5, tx: 195 - 515 * 0.5, ty: 236 - 760 * 0.5 };
@@ -631,7 +631,7 @@ class PlayIbiraAppLogic extends React.Component {
       sel: null,
       popOn: false,
       route: null,
-      view: DEFV,
+      view: this.defView(),
       anim: true,
       inPark: false,
       queue: null,
@@ -824,10 +824,27 @@ class PlayIbiraAppLogic extends React.Component {
     this.toastT = setTimeout(() => this.setState({ toast: null }), 2400);
   }
 
+  // In phone mode the screen is the real viewport height, not the 844px design screen.
+  screenH() {
+    return this.props.screenH || 844;
+  }
+  vy(y) {
+    return Math.round((y * this.screenH()) / 844);
+  }
+  sheets() {
+    const H = this.screenH();
+    if (H === 844) return SHEET;
+    const full = H - 139;
+    return { low: 132, mid: Math.min(360, Math.round(full * 0.51)), full };
+  }
+  defView() {
+    return { ...DEFV, ty: this.vy(236) - 760 * 0.5 };
+  }
+
   // ---------- map ----------
   focusView(p) {
     const s = 1.05;
-    return { s, tx: Math.round(195 - (p.x + 40) * s), ty: Math.round(420 - (p.y + 40) * s) };
+    return { s, tx: Math.round(195 - (p.x + 40) * s), ty: Math.round(this.vy(420) - (p.y + 40) * s) };
   }
   calcRoute(from, place) {
     const to = [place.x, place.y],
@@ -868,8 +885,8 @@ class PlayIbiraAppLogic extends React.Component {
       x1 = Math.max(...xs),
       y0 = Math.min(...ys),
       y1 = Math.max(...ys);
-    const s = Math.min(320 / Math.max(1, x1 - x0), 400 / Math.max(1, y1 - y0), 1.1);
-    return { s, tx: 195 - ((x0 + x1) / 2) * s, ty: 375 - ((y0 + y1) / 2) * s };
+    const s = Math.min(320 / Math.max(1, x1 - x0), this.vy(400) / Math.max(1, y1 - y0), 1.1);
+    return { s, tx: 195 - ((x0 + x1) / 2) * s, ty: this.vy(375) - ((y0 + y1) / 2) * s };
   }
   you() {
     return this.state.inPark ? YOU_IN : YOU_OUT;
@@ -935,12 +952,12 @@ class PlayIbiraAppLogic extends React.Component {
     const el = e.currentTarget;
     const k = el.getBoundingClientRect().width / el.offsetWidth || 1;
     const sy = e.clientY,
-      h0 = this.state.dragH ?? SHEET[this.state.sheet];
+      h0 = this.state.dragH ?? this.sheets()[this.state.sheet];
     let moved = false;
     const mv = (ev) => {
       const dy = (ev.clientY - sy) / k;
       if (Math.abs(dy) > 5) moved = true;
-      if (moved) this.setState({ dragH: Math.max(110, Math.min(720, h0 - dy)) });
+      if (moved) this.setState({ dragH: Math.max(110, Math.min(this.screenH() - 124, h0 - dy)) });
     };
     const up = () => {
       window.removeEventListener('pointermove', mv);
@@ -952,8 +969,9 @@ class PlayIbiraAppLogic extends React.Component {
       const h = this.state.dragH;
       let best = 'mid',
         bd = 1e9;
-      for (const n in SHEET) {
-        const d = Math.abs(SHEET[n] - h);
+      const sizes = this.sheets();
+      for (const n in sizes) {
+        const d = Math.abs(sizes[n] - h);
         if (d < bd) {
           bd = d;
           best = n;
@@ -1083,7 +1101,7 @@ class PlayIbiraAppLogic extends React.Component {
     const v = st.view;
     const s = v.s;
     const scr = (x, y) => ({ x: Math.round(v.tx + (x + 40) * s), y: Math.round(v.ty + (y + 40) * s) });
-    const sheetH = st.dragH ?? SHEET[st.sheet];
+    const sheetH = st.dragH ?? this.sheets()[st.sheet];
     const nextEventAt = (pid) => EV_ORDER.map((id) => ({ id, ...EV[id] })).find((e) => e.place === pid);
 
     // pins
@@ -1590,17 +1608,15 @@ class PlayIbiraAppLogic extends React.Component {
     const visitTotal = Object.values(st.visits).reduce((a, b) => a + b, 0);
     const perSport = Object.entries(st.visits).map(([id, n]) => ({ src: PIC(SP[id].pic), n, name: SP[id].name }));
     const stamps = [
-      ...st.stamps
-        .slice(0, 7)
-        .map(([id, d], i) => ({
-          src: PICO(SP[id].pic),
-          date: d,
-          border: `2px solid ${OR}`,
-          color: OR,
-          op: 1,
-          rot: [-8, 6, -4, 9, -10, 3, -6][i % 7],
-          anim: i === 0 && st.newStamp ? 'piStamp .6s cubic-bezier(.2,.8,.2,1) forwards' : 'none',
-        })),
+      ...st.stamps.slice(0, 7).map(([id, d], i) => ({
+        src: PICO(SP[id].pic),
+        date: d,
+        border: `2px solid ${OR}`,
+        color: OR,
+        op: 1,
+        rot: [-8, 6, -4, 9, -10, 3, -6][i % 7],
+        anim: i === 0 && st.newStamp ? 'piStamp .6s cubic-bezier(.2,.8,.2,1) forwards' : 'none',
+      })),
       {
         src: PIC('tennis'),
         date: 'Next',
@@ -1950,12 +1966,14 @@ class PlayIbiraAppLogic extends React.Component {
       routeTime,
       routeDist,
       routeName,
-      endRoute: () => this.setState({ route: null, sheet: 'mid', view: DEFV, anim: true }),
+      endRoute: () => this.setState({ route: null, sheet: 'mid', view: this.defView(), anim: true }),
       recenter: () => {
         this.clearSel();
         this.setState({
           anim: true,
-          view: st.inPark ? { s: 0.75, tx: 195 - (YOU_IN[0] + 40) * 0.75, ty: 231 - (YOU_IN[1] + 40) * 0.75 } : DEFV,
+          view: st.inPark
+            ? { s: 0.75, tx: 195 - (YOU_IN[0] + 40) * 0.75, ty: this.vy(231) - (YOU_IN[1] + 40) * 0.75 }
+            : this.defView(),
           sheet: 'mid',
         });
       },
@@ -2180,6 +2198,20 @@ class PlayIbiraAppLogic extends React.Component {
       hasNotif: !!st.notif,
       hasToast: !!st.toast,
       toast: st.toast || '',
+      // `standalone`: the app fills a real phone, so drop the mockup bezel, fake status bar and demo toggle.
+      frame: this.props.standalone
+        ? { w: 390, h: this.screenH(), pad: 0, radius: 0, bg: '#fff', shadow: 'none', screenRadius: 0, chrome: false }
+        : {
+            w: 414,
+            h: 868,
+            pad: 12,
+            radius: 64,
+            bg: '#1a1613',
+            shadow: '0 30px 60px -20px rgba(26,22,19,.35)',
+            screenRadius: 52,
+            chrome: true,
+          },
+      screenHeight: this.screenH(),
     };
   }
 }

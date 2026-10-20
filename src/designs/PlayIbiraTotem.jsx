@@ -517,6 +517,11 @@ class PlayIbiraTotemLogic extends React.Component {
       reset: () => this.setState(this.init(s.loc)),
       sms: s.sms.slice(0, 5),
       noSms: s.sms.length === 0,
+      // `standalone`: the totem fills a real tablet, so drop the bezel (the page also passes bare + no demo).
+      frame: this.props.standalone
+        ? { w: 834, h: this.props.screenH, pad: 0, radius: 0, bg: '#f7f7f6', screenRadius: 0 }
+        : { w: 870, h: 1230, pad: 18, radius: 54, bg: '#1a1613', screenRadius: 36 },
+      screenHeight: this.props.standalone ? this.props.screenH : 1194,
     };
   }
 }

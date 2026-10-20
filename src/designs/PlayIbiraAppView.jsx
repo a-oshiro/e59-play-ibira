@@ -1,18 +1,19 @@
 // Generated from "Play Ibira App.dc.html" (Claude Design). Markup only; behavior lives in PlayIbiraApp.jsx.
 import { Fragment } from 'react';
 import { arr, s } from '../lib/template';
+import Scaled from '../lib/Scaled';
 
 export default function PlayIbiraAppView(vals) {
   return (
-    <>
+    <Scaled scale={vals.scale}>
       <div
         style={{
-          width: '414px',
-          height: '868px',
-          padding: '12px',
-          borderRadius: '64px',
-          background: '#1a1613',
-          boxShadow: '0 30px 60px -20px rgba(26,22,19,.35)',
+          width: `${vals.frame.w}px`,
+          height: `${vals.frame.h}px`,
+          padding: `${vals.frame.pad}px`,
+          borderRadius: `${vals.frame.radius}px`,
+          background: vals.frame.bg,
+          boxShadow: vals.frame.shadow,
           boxSizing: 'border-box',
           fontFamily: "Lato,'Helvetica Neue',Arial,sans-serif",
           color: '#1a1613',
@@ -24,8 +25,8 @@ export default function PlayIbiraAppView(vals) {
           style={{
             position: 'relative',
             width: '390px',
-            height: '844px',
-            borderRadius: '52px',
+            height: `${vals.screenHeight}px`,
+            borderRadius: `${vals.frame.screenRadius}px`,
             overflow: 'hidden',
             background: '#ffffff',
             isolation: 'isolate',
@@ -2023,7 +2024,7 @@ export default function PlayIbiraAppView(vals) {
               <div
                 onClick={vals.demoInPark}
                 style={{
-                  display: 'flex',
+                  display: vals.frame.chrome ? 'flex' : 'none',
                   alignItems: 'center',
                   gap: '12px',
                   padding: '12px 14px',
@@ -4965,8 +4966,23 @@ export default function PlayIbiraAppView(vals) {
               pointerEvents: 'none',
             }}
           >
-            <div style={{ font: "700 16px/1 -apple-system,'SF Pro Text',Lato,sans-serif", color: '#1a1613' }}>3:42</div>
-            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <div
+              style={{
+                font: "700 16px/1 -apple-system,'SF Pro Text',Lato,sans-serif",
+                color: '#1a1613',
+                visibility: vals.frame.chrome ? 'visible' : 'hidden',
+              }}
+            >
+              3:42
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                gap: '6px',
+                alignItems: 'center',
+                visibility: vals.frame.chrome ? 'visible' : 'hidden',
+              }}
+            >
               <div style={{ display: 'flex', gap: '2px', alignItems: 'flex-end', height: '11px' }}>
                 <div style={{ width: '3px', height: '4px', borderRadius: '1px', background: '#1a1613' }} />
                 <div style={{ width: '3px', height: '6px', borderRadius: '1px', background: '#1a1613' }} />
@@ -4998,6 +5014,7 @@ export default function PlayIbiraAppView(vals) {
               marginLeft: '-61px',
               borderRadius: '20px',
               background: '#000',
+              display: vals.frame.chrome ? undefined : 'none',
               zIndex: '56',
               pointerEvents: 'none',
             }}
@@ -5010,6 +5027,7 @@ export default function PlayIbiraAppView(vals) {
               width: '134px',
               height: '5px',
               marginLeft: '-67px',
+              display: vals.frame.chrome ? undefined : 'none',
               borderRadius: '3px',
               background: '#1a1613',
               zIndex: '70',
@@ -5018,6 +5036,6 @@ export default function PlayIbiraAppView(vals) {
           />
         </div>
       </div>
-    </>
+    </Scaled>
   );
 }

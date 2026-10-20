@@ -1,10 +1,11 @@
 // Generated from "Play Ibira Notifications.dc.html" (Claude Design). Markup only; behavior lives in PlayIbiraNotifications.jsx.
 import { Fragment } from 'react';
 import { s } from '../lib/template';
+import Scaled from '../lib/Scaled';
 
 export default function PlayIbiraNotificationsView(vals) {
   return (
-    <>
+    <Scaled scale={vals.scale}>
       <div id={`nx-${s(vals.screen)}`} style={{ width: 'max-content' }}>
         {vals.isN1 ? (
           <div style={{}}>
@@ -690,6 +691,6 @@ export default function PlayIbiraNotificationsView(vals) {
           </div>
         ) : null}
       </div>
-    </>
+    </Scaled>
   );
 }

@@ -27,13 +27,13 @@ const SCREENS = [
   ['me', 'Profile & passport'],
 ];
 const FLOWS = [
-  ['login', 'Onboarding', false],
-  ['explore', 'Explore the map', false],
-  ['sport', 'Join a queue', true],
-  ['events', 'Explore events', false],
-  ['plan', 'Plan a game', false],
-  ['community', 'Community', false],
-  ['me', 'Profile & passport', false],
+  ['login', 'Onboarding'],
+  ['explore', 'Explore the map'],
+  ['sport', 'Join a queue'],
+  ['events', 'Explore events'],
+  ['plan', 'Plan a game'],
+  ['community', 'Community'],
+  ['me', 'Profile & passport'],
 ];
 const DECISIONS = [
   [
@@ -85,10 +85,19 @@ const DECISIONS = [
     'Orange appears only on the one primary action, live and your-turn states, the selected pin and tab, and stamps. Everything else is Ink, Line and Paper. Park green and Lake only appear inside the map.',
   ],
 ];
+// Shrinks the phone, watch and totem mockups toward real-world size on a typical desktop monitor.
+const DEVICE_SCALE = 2 / 3;
+const SHOW_DECISIONS = false;
+
 class PlayIbiraLogic extends React.Component {
-  state = { start: 'login', nonce: 0, inPark: false, totem: true, dec: {} };
+  // In the park by default: the prototype behaves as if you're standing next to the courts.
+  state = { start: 'login', nonce: 0, inPark: true, totem: true, dec: {} };
   renderVals() {
     return {
+      deviceScale: DEVICE_SCALE,
+      phoneGridW: Math.round(4 * 414 * DEVICE_SCALE + 3 * 32),
+      totemColW: Math.round(870 * DEVICE_SCALE),
+      showDecisions: SHOW_DECISIONS,
       showTotem: this.state.totem,
       totemBg: this.state.totem ? '#1a1613' : '#d6d6d4',
       totemKnob: this.state.totem ? 21 : 3,
@@ -99,11 +108,11 @@ class PlayIbiraLogic extends React.Component {
       inParkBg: this.state.inPark ? '#1a1613' : '#d6d6d4',
       inParkKnob: this.state.inPark ? 21 : 3,
       toggleInPark: () => this.setState((s) => ({ inPark: !s.inPark })),
-      jumps: FLOWS.map(([k, l, ip], i) => ({
+      jumps: FLOWS.map(([k, l], i) => ({
         n: String(i + 1).padStart(2, '0'),
         label: l,
         bg: this.state.start === k ? '#e6e0d8' : 'transparent',
-        onClick: () => this.setState((s) => ({ start: k, nonce: s.nonce + 1, inPark: ip })),
+        onClick: () => this.setState((s) => ({ start: k, nonce: s.nonce + 1 })),
       })),
       totemGallery: [
         ['home', 'Totem · the line'],
