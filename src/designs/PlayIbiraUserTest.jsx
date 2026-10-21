@@ -8,7 +8,7 @@ const TASKS = [
   'Find a sport you’d like to try.',
   'Find out how it works at the park: the rules and how to join.',
   'Check out the community for that sport.',
-  "Now, let's imagine you came to the park wanting to play tennis but the courts are full. Enter the line to play.",
+  "Now, let's imagine you came to the park wanting to play that sport but its courts are full. Enter the line to play (if the selected sport doesn't have lines, please pick another).",
 ];
 
 const label = { font: '700 11px/1 Lato,sans-serif', letterSpacing: '.12em', color: '#6f6a66' };
