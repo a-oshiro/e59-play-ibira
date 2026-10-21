@@ -96,6 +96,7 @@ const HEADER_LINKS = [
   ],
   ['Research Report', 'https://docs.google.com/document/d/1TPbWKxfYquCfnvmS8hRLWr0XcF82CHRT1uEce3Bzgb8/edit?usp=sharing'],
   ['Delivery Report', 'https://docs.google.com/document/d/1sn9CaJHh7wfPClE8i1xDNhI0ZG0uDe9pKY2DDVMcRtU/edit?usp=sharing'],
+  ['User Test', '/user-test'],
 ];
 const SHOW_DECISIONS = false;
 
