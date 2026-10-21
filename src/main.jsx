@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import PlayIbira from './designs/PlayIbira';
+import PlayIbiraUserTest from './designs/PlayIbiraUserTest';
 import { PhoneApp, TabletTotem } from './Standalone';
 
 // Which experience this screen gets:
@@ -13,6 +14,9 @@ const QUERIES = {
   tablet: '(hover: none) and (pointer: coarse) and (min-width: 600px) and (min-height: 600px)',
 };
 const VIEWS = ['phone', 'tablet', 'desktop'];
+// Desktop-only user-test mode: just the phone prototype and the test script. Phones and tablets still get
+// their standalone app there.
+const USER_TEST = window.location.pathname.replace(/\/+$/, '') === '/user-test';
 
 function detect() {
   const forced = new URLSearchParams(window.location.search).get('view');
@@ -47,7 +51,7 @@ function Root() {
 
   if (view === 'phone') return <PhoneApp />;
   if (view === 'tablet') return <TabletTotem />;
-  return <PlayIbira />;
+  return USER_TEST ? <PlayIbiraUserTest /> : <PlayIbira />;
 }
 
 // No <StrictMode>: its double-mounting would re-run the prototype's timers and the totem's speech.
